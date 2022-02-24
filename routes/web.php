@@ -14,7 +14,7 @@
 #Route::get('/', function(){return "<h2 style='color: red;'>There was a problem connecting to the server</h2>";});
 
 
-Route::get('/', 'MainController@getTemp');
+Route::get('/', 'MainController@getIndex');
 Route::post('contact', 'MainController@postContact');
 Route::get('track', 'MainController@getTrack');
 
