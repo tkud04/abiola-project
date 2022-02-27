@@ -8,79 +8,101 @@
 <!--<![endif]-->
 
 <head>
-	<title>@yield('title') – Pharmaceutical Marketing Services in Nigeria</title>
-	<meta charset="utf-8">
-	<!--[if IE]>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<![endif]-->
-	<meta name="description" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>@yield('title') | MySchool - School Management System for Primary Schools</title>
+	<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css" />
 
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/animations.css">
-	<link rel="stylesheet" href="css/font-awesome.css">
-	<link rel="stylesheet" href="css/main.css" class="color-switcher-link">
-	<link rel="stylesheet" href="css/shop.css">
-	<script src="js/vendor/modernizr-2.6.2.min.js"></script>
+<link rel="stylesheet" href="assets/css/meanmenu.css" />
 
-	<!--[if lt IE 9]>
-		<script src="js/vendor/html5shiv.min.js"></script>
-		<script src="js/vendor/respond.min.js"></script>
-		<script src="js/vendor/jquery-1.12.4.min.js"></script>
-	<![endif]-->
+<link rel="stylesheet" type="text/css" href="assets/css/fontawesome-all.min.css" />
+
+<link rel="stylesheet" type="text/css" href="assets/css/flaticon.css" />
+
+<link rel="stylesheet" type="text/css" href="assets/css/magnific-popup.css" />
+
+<link rel="stylesheet" type="text/css" href="assets/css/animate.css" />
+
+<link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+
+<link rel="stylesheet" href="assets/css/style.css" />
+
+<link rel="stylesheet" href="assets/css/responsive.css" />
+<link rel="icon" type="image/png" href="assets/images/favicon.ico">
 
 </head>
 
 <body>
-	<!--[if lt IE 9]>
-		<div class="bg-danger text-center">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="color-main">upgrade your browser</a> to improve your experience.</div>
-	<![endif]-->
+<div id="loading">
+<div id="loading-center">
+<div id="loading-center-absolute">
+<div class="object" id="object_one"></div>
+<div class="object" id="object_two"></div>
+<div class="object" id="object_three"></div>
+<div class="object" id="object_four"></div>
+</div>
+</div>
+</div>
 
-	<div class="preloader">
-		<div class="preloader_image"></div>
-	</div>
 
-	<!-- search modal -->
-	<div class="modal" tabindex="-1" role="dialog" aria-labelledby="search_modal" id="search_modal">
-		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		<div class="widget widget_search">
-			<form method="get" class="searchform search-form" action="/">
-				<div class="form-group">
-					<input type="text" value="" name="search" class="form-control" placeholder="Search keyword" id="modal-search-input">
-				</div>
-				<button type="submit" class="btn">Search</button>
-			</form>
-		</div>
-	</div>
+<div class="navbar-area">
+<div class="mobile-nav">
+<a href="{{url('/')}}" class="logo">
+<p style="color: #000;">My School</p>
+</a>
+</div>
+<div class="main-nav">
+<div class="container">
+<nav class="navbar navbar-expand-md navbar-light">
+<a class="navbar-brand" href="{{url('/')}}">
+<p style="color: #000;">My School</p>
+</a>
+<div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
+<ul class="navbar-nav text-right">
+<li class="nav-item">
+<a href="{{url('/')}}" class="nav-link active">Home</a>
+</li>
+<li class="nav-item">
+<a href="about.html" class="nav-link">About</a>
+</li>
+<li class="nav-item">
+<a href="#" class="nav-link dropdown-toggle">Classes</a>
+<ul class="dropdown-menu">
+<li class="nav-item">
+<a href="classes.html" class="nav-link">Classes</a>
+</li>
+<li class="nav-item">
+<a href="special-class.html" class="nav-link">Special Courses</a>
+</li>
+<li class="nav-item">
+<a href="single-class.html" class="nav-link">Classes Details</a>
+</li>
+</ul>
+</li>
 
-	<!-- Unyson messages modal -->
-	<div class="modal fade" tabindex="-1" role="dialog" id="messages_modal">
-		<div class="fw-messages-wrap ls p-normal">
-			<!-- Uncomment this UL with LI to show messages in modal popup to your user: -->
-			<!--
-		<ul class="list-unstyled">
-			<li>Message To User</li>
-		</ul>
-		-->
 
-		</div>
-	</div>
-	<!-- eof .modal -->
-    <!-- wrappers for visual page editor and boxed version of template -->
-	<div id="canvas">
-		<div id="box_wrapper">
+<li class="nav-item">
+<a href="#" class="nav-link dropdown-toggle">Teachers</a>
+<ul class="dropdown-menu">
+<li class="nav-item">
+<a href="single-teacher.html" class="nav-link">Teachers</a>
+</li>
+<li class="nav-item">
+<a href="single-teacher.html" class="nav-link">Teachers Details</a>
+</li>
+</ul>
+</li>
 
-			<!-- template sections -->
-
-			@if(isset($ht) && $ht == 's2')
-				@include('header-2',['user' => $user])
-			@else
-				@include('header-1',['user' => $user])
-			@endif
+<li class="nav-item">
+<a href="contact.html" class="nav-link">Contact </a>
+</li>
+</ul>
+</div>
+</nav>
+</div>
+</div>
+</div>
 		
 		 <!--------- Session notifications-------------->
         	<?php
@@ -113,110 +135,125 @@
 		  
 		  @yield('content')
 		  
-<section class="s-pt-50 s-pb-100 s-pt-lg-30 s-pb-lg-75 ls ms teaser-contact-icon main-icon s-parallax" id="contact">
-				<div class="corner corner-inverse"></div>
-				<div class="text-center img-wrap col-md-12">
-					<img src="img/dark_line_short.png" alt="">
-				</div>
-				<div class="container">
-					<div class="divider-10 d-none d-xl-block"></div>
-					<div class="row c-mb-50 c-mb-lg-0">
-						<div class="col-lg-4 text-center">
-							<div class="border-icon">
-								<div class="teaser-icon">
-									<img src="images/icon1.png" alt="">
-								</div>
-							</div>
-							<h6>
-								Call Us
-							</h6>
-							<p>
-								<strong>Support:</strong> (234) 706 123 4567
-							</p>
-						</div>
-						<div class="col-lg-4 text-center">
-							<div class="border-icon">
-								<div class="teaser-icon">
-									<img src="images/icon3.png" alt="">
-								</div>
-							</div>
-							<h6>
-								Write Us
-							</h6>
-							<p>
-								suppport@mtb.com
-								
-							</p>
-						</div>
-						<div class="col-lg-4 text-center">
-							<div class="border-icon">
-								<div class="teaser-icon">
-									<img src="images/icon2.png" alt="">
-								</div>
-							</div>
-							<h6>
-								Visit Us
-							</h6>
-							<p>
-								15 Admiralty Way
-								<br> Lekki,Lagos NG
-							</p>
-						</div>
-					</div>
-					<div class="divider-30 d-none d-lg-block"></div>
-					<div class="text-center img-wrap col-md-12 layout-2">
-						<img src="img/dark_line_short.png" alt="">
-					</div>
-				</div>
-				<div class="divider-10"></div>
-			</section>
+		  <div class="footer-area">
+<div class="container">
+<div class="row">
+<div class="col-lg-4 col-md-6">
+<div class="footer-left">
+<a href="{{url('/')}}" class="logo"><p>My School</p></a>
+<p>
+Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+</p>
+<ul class="footer-social">
+<li>
+<a href="#"><i class="flaticon-facebook"></i></a>
+</li>
+<li>
+<a href="#"><i class="flaticon-twitter"></i></a>
+</li>
+<li>
+<a href="#"><i class="flaticon-envelope"></i></a>
+</li>
+<li>
+<a href="#"><i class="flaticon-google-plus"></i></a>
+</li>
+</ul>
+</div>
+</div>
+<div class="col-lg-3 col-md-6">
+<div class="footer-content fml-25">
+<h2>School</h2>
+<ul>
+<li>
+<a href="#"><i class="flaticon-next"></i> Support</a>
+</li>
+<li>
+<a href="#"><i class="flaticon-next"></i> Teachers</a>
+</li>
+<li>
+<a href="#"><i class="flaticon-next"></i> Contact</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="col-lg-2 col-md-6">
+<div class="footer-content fml-15">
+<h2>Quick Links</h2>
+<ul>
+<li>
+<a href="{{url('/')}}"><i class="flaticon-next"></i> Home</a>
+</li>
+<li>
+<a href="#"><i class="flaticon-next"></i> Classes</a>
+</li>
+<li>
+<a href="#"><i class="flaticon-next"></i> Courses</a>
+</li>
+<li>
+<a href="#"><i class="flaticon-next"></i> FAQ</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="col-lg-3 col-md-6">
+<div class="footer-content fml-15 fml-20">
+<h2>Find Us</h2>
+<ul>
+<li>
+<a href="#"><i class="flaticon-next"></i> +1 (321) 984 754</a>
+</li>
+<a href="#"><i class="flaticon-next"></i> <span class="__cf_email__" data-cfemail="32414742425d4046725756445b1c515d5f">[email&#160;protected]</span></a>
+</li>
+<li>
+<a href="#">
+<i class="flaticon-next"></i> 28/A Street, New York, USA
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 
-			<footer class="page_footer corner-footer ds s-pt-30 s-pb-0 s-pb-lg-10 s-pb-xl-50 c-gutter-60 s-parallax">
-
-				<div class="container">
-					<div class="container">
-						<div class="row">
-							<div class="divider-20 d-none d-xl-block"></div>
-							<div class="col-md-12 mt-4 text-center animate" data-animation="fadeInUp">
-								<!--<img class="margin-negative" src="images//footer_logo.png" alt="">-->
-								<span style="color: #fff; padding: 10px; font-size: 90px;"><i class="fa fa-tv"></i> MTB</span>
-								<div class="widget widget_social_buttons">
-									<a href="#https://www.facebook.com/#" class="fa fa-facebook color-icon" title="facebook"></a>
-									<a href="#https://www.twitter.com/#" class="fa fa-twitter color-icon" title="twitter"></a>
-									<a href="#https://www.instagram.com/#" class="fa fa-instagram color-icon" title="instagram"></a>
-									<a href="#https://www.linkedin.com/#" class="fa fa-linkedin color-icon" title="linkedin"></a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</footer>
+<div class="copy-area">
+<div class="container">
+<div class="col-lg-12">
+<div class="row">
+<div class="copy">
+<p>
+Copyright &copy;{{date("Y")}} MySchool. All Rights Reserved by
+<a href="javascript:void(0)"> Abiola</a>
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 
-			<section class="page_copyright light-copy cs s-py-20 s-py-lg-5 s-parallax copyright">
-				<div class="container">
-					<div class="row align-items-center">
-						<div class="divider-20 d-none d-lg-block"></div>
-						<div class="col-md-12 text-center">
-							<p>&copy; Copyright MTB
-								<span class="copyright_year"><script>document.write(new Date().getFullYear())</script></span>, all rights reserved | <i class="fa fa-bolt"></i> Powered by <a href="#">Disenado NG</a></p>
-						</div>
-						<div class="divider-20 d-none d-lg-block"></div>
-					</div>
-				</div>
-			</section>
+<a href="#" class="scroll-top wow bounceInDown">
+<i class="fas fa-angle-double-up"></i>
+</a>
 
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery.min.js"></script>
 
-		</div>
-		<!-- eof #box_wrapper -->
-	</div>
-	<!-- eof #canvas -->
+<script src="assets/js/bootstrap.bundle.min.js"></script>
 
+<script src="assets/js/jquery.meanmenu.js"></script>
+<script src="assets/js/jquery.magnific-popup.min.js"></script>
 
-	<script src="js/compressed.js"></script>
-	<script src="js/main.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
 
+<script src="assets/js/wow.min.js"></script>
+
+<script src="assets/js/isotope.pkgd.min.js"></script>
+
+<script src="assets/js/form-validator.min.js"></script>
+
+<script src="assets/js/contact-form-script.js"></script>
+
+<script src="assets/js/main.js"></script>
 </body>
-
 </html>

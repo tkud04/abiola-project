@@ -36,7 +36,7 @@ class MainController extends Controller {
 		
 		$signals = $this->helpers->signals;
         #dd($posts);
-    	return view('temp',compact(['user','signals']));
+    	return view('index',compact(['user','signals']));
     }
 	
 
