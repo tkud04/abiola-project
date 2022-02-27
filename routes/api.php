@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,15 +14,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-/*******************************************
-         MOBILE APP ROUTES
-*******************************************/
-Route::get('/', 'MobileAppController@getIndex');
-Route::get('login', 'MobileAppController@getLogin');
-Route::get('signup', 'MobileAppController@getSignup');
-Route::get('logout', 'MobileAppController@getLogout');
-Route::post('sync', 'MobileAppController@postAppSync');

@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Helpers\Contracts\HelperContract; 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Session; 
 use Validator; 
 use Carbon\Carbon; 

@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,15 +14,4 @@
 |
 */
 
-#Route::get('/', function(){return "<h2 style='color: red;'>There was a problem connecting to the server</h2>";});
-
-
-Route::get('/', 'MainController@getIndex');
-Route::post('contact', 'MainController@postContact');
-Route::get('track', 'MainController@getTrack');
-
-
-Route::get('practice', 'MainController@getPractice');
-Route::get('zohoverify/{url}', 'MainController@getZoho');
-
-
+Route::get('/', [MainController::class,'getIndex']);
