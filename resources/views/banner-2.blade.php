@@ -3,7 +3,7 @@
 <div class="d-table-cell">
 <div class="container">
 <div class="page-title-content">
-<h2>Sign In</h2>
+<h2>{{$title}}</h2>
 <ul>
 <li>
 <a href="{{url('/')}}"> Home </a>

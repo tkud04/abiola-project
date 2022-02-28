@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Session; 
 use Validator; 
 use Carbon\Carbon; 
-use App\User;
+use App\Models\User;
 
 class LoginController extends Controller {
 
@@ -114,12 +114,12 @@ class LoginController extends Controller {
     public function postSignup(Request $request)
     {
         $req = $request->all();
-
+        dd($req);
         
         $validator = Validator::make($req, [
-                             'pass' => 'required|confirmed',
-                             'email' => 'required|email',                            
-                             'username' => 'required',
+                             'password' => 'required|confirmed',
+                             'email' => 'required|email', 
+                             'role' => 'required',  
                              #'g-recaptcha-response' => 'required',
                            # 'terms' => 'accepted',
          ]);
@@ -135,8 +135,7 @@ class LoginController extends Controller {
          else
          {
 			 #dd($req);
-            $req['role'] = "user";    
-            $req['status'] = "ok";           			
+           $req['status'] = "ok";           			
             
                        #dd($req);            
 

@@ -50,7 +50,7 @@
 </div>
 <div class="col-lg-12">
 <div class="form-group">
-<input type="password" name="password" id="signup-password" class="form-control" placeholder="Password">
+<input type="password" name="password_confirmation" id="signup-password2" class="form-control" placeholder="Confirm password">
 </div>
 </div>
 <div class="col-lg-12">

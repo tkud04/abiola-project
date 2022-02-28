@@ -8,16 +8,7 @@ use Mail;
 use Auth;
 use \Swift_Mailer;
 use \Swift_SmtpTransport;
-use App\User;
-use App\BankAccounts;
-use App\Settings;
-use App\Configs;
-use App\Trackings;
-use App\TrackingHistory;
-use App\Shippers;
-use App\Receivers;
-use App\UserData;
-use App\SmtpConfigs;
+use App\Models\User;
 use GuzzleHttp\Client;
 
 class Helper implements HelperContract
