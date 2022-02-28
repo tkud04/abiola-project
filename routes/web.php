@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,3 +16,10 @@ use App\Http\Controllers\MainController;
 */
 
 Route::get('/', [MainController::class,'getIndex']);
+
+
+//Authentication
+Route::get('login', [LoginController::class,'getLogin']);
+Route::get('signup', [LoginController::class,'getSignup']);
+Route::post('login', [LoginController::class,'postLogin']);
+Route::post('signup', [LoginController::class,'postSignup']);

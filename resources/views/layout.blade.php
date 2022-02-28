@@ -66,17 +66,12 @@
 <li class="nav-item">
 <a href="about.html" class="nav-link">About</a>
 </li>
+
 <li class="nav-item">
-<a href="#" class="nav-link dropdown-toggle">Classes</a>
+<a href="#" class="nav-link dropdown-toggle">Courses</a>
 <ul class="dropdown-menu">
 <li class="nav-item">
-<a href="classes.html" class="nav-link">Classes</a>
-</li>
-<li class="nav-item">
-<a href="special-class.html" class="nav-link">Special Courses</a>
-</li>
-<li class="nav-item">
-<a href="single-class.html" class="nav-link">Classes Details</a>
+<a href="{{url('courses')}}" class="nav-link">My Courses</a>
 </li>
 </ul>
 </li>
@@ -97,6 +92,21 @@
 <li class="nav-item">
 <a href="contact.html" class="nav-link">Contact </a>
 </li>
+
+@if($user == null)
+<li class="nav-item">
+<a href="#" class="nav-link dropdown-toggle">Account</a>
+<ul class="dropdown-menu">
+<li class="nav-item">
+<a href="{{url('login')}}" class="nav-link">Log in</a>
+</li>
+<li class="nav-item">
+<a href="{{url('signup')}}" class="nav-link">Sign up</a>
+</li>
+</ul>
+</li>
+@else
+@endif
 </ul>
 </div>
 </nav>
@@ -237,8 +247,9 @@ Copyright &copy;{{date("Y")}} MySchool. All Rights Reserved by
 <i class="fas fa-angle-double-up"></i>
 </a>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery.min.js"></script>
-
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/mmm.js?ver={{rand(1,4444)}}"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 
 <script src="assets/js/jquery.meanmenu.js"></script>
