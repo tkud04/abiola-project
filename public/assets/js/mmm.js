@@ -13,4 +13,17 @@ $(document).ready(() => {
             $('#signup-form').submit();
         }
     });
+
+    $('#login-submit').click(e => {
+        e.preventDefault();
+        let email = $('#login-email').val(), pass = $('#login-password').val(),
+        validation = email == "" || pass == "";
+
+        if(validation){
+          alert("All fields are required");
+        }
+        else{
+            $('#login-form').submit();
+        }
+    });
 });

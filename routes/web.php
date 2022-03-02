@@ -23,6 +23,7 @@ Route::get('login', [LoginController::class,'getLogin']);
 Route::get('signup', [LoginController::class,'getSignup']);
 Route::post('login', [LoginController::class,'postLogin']);
 Route::post('signup', [LoginController::class,'postSignup']);
+Route::get('bye', [LoginController::class,'getLogout']);
 
 //Dashboard
 Route::get('dashboard', [MainController::class,'getDashboard']);

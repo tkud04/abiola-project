@@ -106,6 +106,17 @@
 </ul>
 </li>
 @else
+<li class="nav-item">
+<a href="#" class="nav-link dropdown-toggle">Hi, {{$user->fname}}</a>
+<ul class="dropdown-menu">
+<li class="nav-item">
+<a href="{{url('dashboard')}}" class="nav-link">Dashboard</a>
+</li>
+<li class="nav-item">
+<a href="{{url('bye')}}" class="nav-link">Log out</a>
+</li>
+</ul>
+</li>
 @endif
 </ul>
 </div>
@@ -175,13 +186,13 @@ Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt u
 <h2>School</h2>
 <ul>
 <li>
-<a href="#"><i class="flaticon-next"></i> Support</a>
+<a href="javascript:void(0)"><i class="flaticon-next"></i> Students</a>
 </li>
 <li>
-<a href="#"><i class="flaticon-next"></i> Teachers</a>
+<a href="javascript:void(0)"><i class="flaticon-next"></i> Teachers</a>
 </li>
 <li>
-<a href="#"><i class="flaticon-next"></i> Contact</a>
+<a href="javascript:void(0)"><i class="flaticon-next"></i> Contact</a>
 </li>
 </ul>
 </div>
@@ -194,13 +205,10 @@ Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt u
 <a href="{{url('/')}}"><i class="flaticon-next"></i> Home</a>
 </li>
 <li>
-<a href="#"><i class="flaticon-next"></i> Classes</a>
+<a href="{{url('courses')}}"><i class="flaticon-next"></i> Courses</a>
 </li>
 <li>
-<a href="#"><i class="flaticon-next"></i> Courses</a>
-</li>
-<li>
-<a href="#"><i class="flaticon-next"></i> FAQ</a>
+<a href="{{url('faq')}}"><i class="flaticon-next"></i> FAQ</a>
 </li>
 </ul>
 </div>

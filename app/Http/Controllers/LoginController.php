@@ -90,7 +90,7 @@ class LoginController extends Controller {
              $return = isset($req['return']) ? $req['return'] : 'dashboard';
              
          	//authenticate this login
-            if(Auth::attempt(['email' => $req['id'],'password' => $req['pass'],'status'=> "ok"],$remember) || Auth::attempt(['username' => $req['id'],'password' => $req['pass'],'status'=> "ok"],$remember))
+            if(Auth::attempt(['email' => $req['id'],'password' => $req['pass'],'status'=> "ok"],$remember))
             {
             	//Login successful               
                $user = Auth::user();          
