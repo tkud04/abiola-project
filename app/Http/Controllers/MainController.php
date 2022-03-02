@@ -45,7 +45,7 @@ class MainController extends Controller {
 	 *
 	 * @return Response
 	 */
-    public function getTrack(Request $request)
+    public function getDashboard(Request $request)
     {
 		$user = null;
 		
@@ -55,7 +55,7 @@ class MainController extends Controller {
 		}
         
         $req = $request->all();
-		#dd($req);
+		dd($req);
         $validator = Validator::make($req, [
                              'xx' => 'required'                             
          ]);

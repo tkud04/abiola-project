@@ -55,7 +55,7 @@
 </div>
 <div class="col-lg-12">
 <a href="javascript:void(0)" id="signup-submit" class="box-btn">
-Sign In
+Sign up
 </a>
 </div>
 <span class="already">Existing user? <a href="{{url('login')}}">Log in</a></span>

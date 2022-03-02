@@ -25,7 +25,7 @@ class Helper implements HelperContract
                        ];     
                         
              public $signals = ['okays'=> ["login-status" => "Sign in successful",            
-                     "signup-status" => "Account created successfully! You can now login to complete your profile.",
+                     "signup-status" => "Account created successfully!",
                      "update-tracking-status" => "Tracking updated!",
                      "new-tracking-status" => "Tracking added!",
                      "contact-status" => "Message sent! Our customer service representatives will get back to you shortly.",
@@ -95,23 +95,12 @@ $subject = $data['subject'];
            	$ret = User::create(['fname' => $data['fname'], 
                                                       'lname' => $data['lname'], 
                                                       'email' => $data['email'], 
-                                                   //   'phone' => $data['phone'], 
-                                                      'role' => $data['role'], 
+                                                     'role' => $data['role'], 
                                                       'status' => $data['status'], 
-                                                    //  'verified' => $data['verified'], 
-                                                      'password' => bcrypt($data['pass']), 
-                                                      ]);
-                                                      
-                return $ret;
-           }
-           function createUserData($data)
-           {
-           	$ret = UserData::create(['user_id' => $data['user_id'],                                                                                                          
-                                                      'company' => "", 
-                                                      'zipcode' => "",                                                      
-                                                      'address' => "", 
-                                                      'city' => "", 
-                                                      'state' => "", 
+                                                     'verified' => $data['verified'], 
+                                                      'password' => bcrypt($data['password']), 
+                                                      'remember_token' => "default",
+                                                      'reset_code' => "default"
                                                       ]);
                                                       
                 return $ret;

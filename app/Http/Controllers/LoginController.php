@@ -114,7 +114,7 @@ class LoginController extends Controller {
     public function postSignup(Request $request)
     {
         $req = $request->all();
-        dd($req);
+        #dd($req);
         
         $validator = Validator::make($req, [
                              'password' => 'required|confirmed',
@@ -135,7 +135,8 @@ class LoginController extends Controller {
          else
          {
 			 #dd($req);
-           $req['status'] = "ok";           			
+           $req['status'] = "ok";  
+           $req['verified'] = "yes";         			
             
                        #dd($req);            
 
