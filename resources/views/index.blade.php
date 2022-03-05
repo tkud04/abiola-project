@@ -124,7 +124,7 @@ if(count($courses) > 0)
 <div class="course-img">
 <img src="{{$course['img']}}" alt="course">
 <div class="course-content">
-<h2>{{$course['img']}}</h2>
+<h2>{{$course['name']}}</h2>
 <p>
 {{$course['description']}}
 </p>
