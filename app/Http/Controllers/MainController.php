@@ -35,8 +35,9 @@ class MainController extends Controller {
 
 		
 		$signals = $this->helpers->signals;
+        $courses = $this->helpers->getClasses();
         #dd($user);
-    	return view('index',compact(['user','signals']));
+    	return view('index',compact(['user','courses','signals']));
     }
 	
 
@@ -53,11 +54,77 @@ class MainController extends Controller {
 		{
 			$user = Auth::user();
 		}
+        else
+        {
+            return redirect()->intended('/');
+        }
         
         $req = $request->all();
-		dd($req);
+	    $v = "";
+        
+         
+         if($user->role == "teacher")
+         {
+             $subjects = [];
+             $compact = ['user','subjects'];
+             $v = "teacher-dashboard";
+         }
+         
+         else
+         {
+            $subjects = [];
+            $compact = ['user','subjects'];
+            $v = "student-dashboard";
+         } 	  
+         return view($v,compact($compact));
+    }
+
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getProfile()
+    {
+       $user = null;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+		}
+        else
+        {
+            return redirect()->intended('/');
+        }
+
+		
+		$signals = $this->helpers->signals;
+        #dd($user);
+    	return view('profile',compact(['user','signals']));
+    }
+
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postProfile(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		#dd($req);
         $validator = Validator::make($req, [
-                             'xx' => 'required'                             
+                             'fname' => 'required',
+                             'lname' => 'required',
+                             'email' => 'required',
          ]);
          
          if($validator->fails())
@@ -69,11 +136,11 @@ class MainController extends Controller {
          
          else
          {
-             $ret = $this->helpers->track($req['xx']);
-			 #dd($ret);
-			 if(count($ret['tracking']) < 1) return redirect()->intended('/');
-			else return view('track',compact(['user','ret']));
+            $ret = $this->helpers->updateUser($req);
+	        session()->flash("update-profile-status","ok");
+			return redirect()->intended('profile');
          } 	  
+           
     }
 
     /**
@@ -81,36 +148,73 @@ class MainController extends Controller {
 	 *
 	 * @return Response
 	 */
-    public function postViewAccount(Request $request)
+	public function getClasses()
     {
-    	if(Auth::check())
+       $user = null;
+
+		if(Auth::check())
 		{
 			$user = Auth::user();
 		}
-		else
-        {
-        	return redirect()->intended('login');
+
+		
+		$signals = $this->helpers->signals;
+        $classes = $this->helpers->getClasses();
+        #dd($classes);
+    	return view('classes',compact(['user','classes','signals']));
+    }
+
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getSingleClass(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+		if(Auth::check())
+		{
+			$user = Auth::user();
+		}
+
+        if(isset($req['xf'])){
+            $signals = $this->helpers->signals;
+        $c = $this->helpers->getSingleClass($req['xf']);
+        #dd($c);
+    	return view('class',compact(['user','c','signals']));
         }
-        
-        $req = $request->all();
-		#dd($req);
-        $validator = Validator::make($req, [
-                             'acc' => 'required|numeric|not_in:none',
-         ]);
-         
-         if($validator->fails())
-         {
-             $messages = $validator->messages();
-             return redirect()->intended('accounts?xf='.$user->id);
-             //dd($messages);
-         }
-         
-         else
-         {
-			 $uu = 'accounts?xf='.$req['acc'];
-			 if(isset($req['xf'])) $uu = 'accounts?xf='.$req['xf'].'&cg='.$req['acc'];
-         	 return redirect()->intended($uu);
-         }  
+        else{
+            return redirect()->intended('classes');
+        }
+
+		
+		
+    }
+
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getNewClass()
+    {
+       $user = null; $isAuthorized = false;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
+		}
+        if(!$isAuthorized)
+        {
+            return redirect()->intended('/');
+        }
+
+		
+		$signals = $this->helpers->signals;
+        #dd($user);
+    	return view('new-class',compact(['user','signals']));
     }
 	
 	/**
@@ -118,39 +222,225 @@ class MainController extends Controller {
 	 *
 	 * @return Response
 	 */
-    public function postViewConfig(Request $request)
+    public function postNewClass(Request $request)
     {
     	if(Auth::check())
 		{
 			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
 		}
-		else
+        if(!$isAuthorized)
         {
-        	return redirect()->intended('login');
+            return redirect()->intended('/');
         }
         
         $req = $request->all();
 		#dd($req);
         $validator = Validator::make($req, [
-                             'acc' => 'required|numeric|not_in:none',
+                             'name' => 'required',
+                             'img' => 'required',
+                             'description' => 'required',
          ]);
          
          if($validator->fails())
          {
-             $messages = $validator->messages();
-             $uu = 'config';
-			 if(isset($req['xf'])) $uu = 'config?xf='.$req['xf'];
-         	 return redirect()->intended($uu);
-             //dd($messages);
+            $messages = $validator->messages();
+            return redirect()->back()->withInput()->with('errors',$messages);
          }
          
          else
          {
-         	 $uu = 'config?cg='.$req['acc'];
-			 if(isset($req['xf'])) $uu = 'config?xf='.$req['xf'].'&cg='.$req['acc'];
-         	 return redirect()->intended($uu);
+            $ret = $this->helpers->createClass($req);
+			return redirect()->intended('classes');
          }  
     }
+
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getSubject(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+		if(Auth::check())
+		{
+			$user = Auth::user();
+		}
+
+        if(isset($req['xf'])){
+            $signals = $this->helpers->signals;
+        $s = $this->helpers->getSubject($req['xf']);
+        #dd($c);
+    	return view('subject',compact(['user','s','signals']));
+        }
+        else{
+            return redirect()->intended('classes');
+        }
+
+		
+		
+    }
+
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getNewSubject()
+    {
+       $user = null; $isAuthorized = false;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
+		}
+        if(!$isAuthorized)
+        {
+            return redirect()->intended('/');
+        }
+
+		
+		$signals = $this->helpers->signals;
+        $classes = $this->helpers->getClasses();
+        #dd($user);
+    	return view('new-subject',compact(['user','classes','signals']));
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postNewSubject(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
+		}
+        if(!$isAuthorized)
+        {
+            return redirect()->intended('/');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [
+                             'name' => 'required',
+                             'class_id' => 'required',
+                             'description' => 'required',
+         ]);
+         
+         if($validator->fails())
+         {
+            $messages = $validator->messages();
+            return redirect()->back()->withInput()->with('errors',$messages);
+         }
+         
+         else
+         {
+            $ret = $this->helpers->createSubject($req);
+			return redirect()->intended('classes');
+         }  
+    }
+
+
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getNewTopic()
+    {
+       $user = null; $isAuthorized = false;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
+		}
+        if(!$isAuthorized)
+        {
+            return redirect()->intended('/');
+        }
+
+		
+		$signals = $this->helpers->signals;
+        $subjects = $this->helpers->getSubjects();
+        #dd($user);
+    	return view('new-topic',compact(['user','subjects','signals']));
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postNewTopic(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
+		}
+        if(!$isAuthorized)
+        {
+            return redirect()->intended('/');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [
+                             'subject_id' => 'required',
+                             'name' => 'required',
+                             'type' => 'required|not_in:none',
+                             'content' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+            $messages = $validator->messages();
+            return redirect()->back()->withInput()->with('errors',$messages);
+         }
+         
+         else
+         {
+            $ret = $this->helpers->createTopic($req);
+			return redirect()->intended('subject?xf='.$req['subject_id']);
+         }  
+    }
+
+     /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getTopic(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+		if(Auth::check())
+		{
+			$user = Auth::user();
+		}
+
+        if(isset($req['xf'])){
+            $signals = $this->helpers->signals;
+        $t = $this->helpers->getTopic($req['xf']);
+        #dd($t);
+    	return view('topic',compact(['user','t','signals']));
+        }
+        else{
+            return redirect()->intended('classes');
+        }
+
+		
+		
+    }
+
 
   /**
 	 * Show the application welcome screen to the user.

@@ -27,6 +27,7 @@
 <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
 
 <link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/custom.css" />
 
 <link rel="stylesheet" href="assets/css/responsive.css" />
 <link rel="icon" type="image/png" href="assets/images/favicon.ico">
@@ -64,19 +65,12 @@
 <a href="{{url('/')}}" class="nav-link active">Home</a>
 </li>
 <li class="nav-item">
-<a href="about.html" class="nav-link">About</a>
+<a href="{{url('about')}}" class="nav-link">About</a>
 </li>
 
-<li class="nav-item">
-<a href="#" class="nav-link dropdown-toggle">Courses</a>
-<ul class="dropdown-menu">
-<li class="nav-item">
-<a href="{{url('courses')}}" class="nav-link">My Courses</a>
-</li>
-</ul>
-</li>
+<li class="nav-item"><a href="{{url('classes')}}" class="nav-link">Classes</a></li>
 
-
+<!--
 <li class="nav-item">
 <a href="#" class="nav-link dropdown-toggle">Teachers</a>
 <ul class="dropdown-menu">
@@ -88,9 +82,10 @@
 </li>
 </ul>
 </li>
+-->
 
 <li class="nav-item">
-<a href="contact.html" class="nav-link">Contact </a>
+<a href="{{url('contact')}}" class="nav-link">Contact </a>
 </li>
 
 @if($user == null)
@@ -205,7 +200,7 @@ Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt u
 <a href="{{url('/')}}"><i class="flaticon-next"></i> Home</a>
 </li>
 <li>
-<a href="{{url('courses')}}"><i class="flaticon-next"></i> Courses</a>
+<a href="{{url('classes')}}"><i class="flaticon-next"></i> Classes</a>
 </li>
 <li>
 <a href="{{url('faq')}}"><i class="flaticon-next"></i> FAQ</a>

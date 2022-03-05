@@ -9,6 +9,9 @@ use Auth;
 use \Swift_Mailer;
 use \Swift_SmtpTransport;
 use App\Models\User;
+use App\Models\Classes;
+use App\Models\Subjects;
+use App\Models\Topics;
 use GuzzleHttp\Client;
 
 class Helper implements HelperContract
@@ -26,7 +29,7 @@ class Helper implements HelperContract
                         
              public $signals = ['okays'=> ["login-status" => "Sign in successful",            
                      "signup-status" => "Account created successfully!",
-                     "update-tracking-status" => "Tracking updated!",
+                     "update-profile-status" => "Profile updated!",
                      "new-tracking-status" => "Tracking added!",
                      "contact-status" => "Message sent! Our customer service representatives will get back to you shortly.",
                      ],
@@ -105,19 +108,6 @@ $subject = $data['subject'];
                                                       
                 return $ret;
            }
-           
-           function createBankAccount($data)
-           {
-           	$ret = BankAccounts::create(['user_id' => $data['user_id'],                                                                                                          
-                                                      'status' => "active",
-                                                      'acname' => $data['acname'],                                                     
-                                                      'acnum' => $data['acnum'],
-                                                      'balance' => "0"
-                                                      ]);
-                                                      
-                return $ret;
-           }
-           
 
            
            function addSettings($data)
@@ -179,16 +169,7 @@ $subject = $data['subject'];
                {
 				  foreach($uu as $u)
 				    {
-                       $temp['fname'] = $u->fname; 
-                       $temp['lname'] = $u->lname; 
-                       $temp['bank'] = $this->getBankAccount($u);
-                       $temp['data'] = $this->getUserData($u);
-                       $temp['phone'] = $u->phone; 
-                       $temp['email'] = $u->email; 
-                       $temp['role'] = $u->role; 
-                       $temp['status'] = $u->status; 
-                       $temp['id'] = $u->id; 
-                       $temp['date'] = $u->created_at->format("jS F, Y"); 
+                       $temp = $this->getUser($u->id);
                        array_push($ret,$temp); 
 				    }
                }                          
@@ -210,13 +191,10 @@ $subject = $data['subject'];
 							
                         	$u->update(['fname' => $data['fname'],
                                               'lname' => $data['lname'],
-                                              'email' => $data['email'],
-                                              'phone' => $data['phone']
+                                              'email' => $data['email']
                                            ]);
 							
-                             $data['xf'] = $u->id;
-                             if(isset($data['cn'])) $this->updateConfig($data);						 
-                             else $this->updateBankAccount($u, $data);
+                             
                              $ret = "ok";
                         }                                    
                }                                 
@@ -250,24 +228,6 @@ $subject = $data['subject'];
                         }                                    
                }                                 
                   return $ret;                               
-           }	
- 
-           function getBankAccount($user)
-           {
-           	   $ret = [];
-               $b = BankAccounts::where('user_id',$user->id)->first();
- 
-              if($b != null)
-               {
-                   	$temp['status'] = $b->status; 
-                       $temp['acname'] = $b->acname; 
-                       $temp['acnum'] = $b->acnum;
-                       $temp['balance'] = $b->balance;
-                       $temp['date'] = $b->created_at->format("jS F, Y"); 
-                       $ret = $temp; 
-               }                          
-                                                      
-                return $ret;
            }
 
 		   function getConfigs($id)
@@ -336,21 +296,7 @@ $subject = $data['subject'];
                }                          
                                                       
                 return $ret;
-           }	  
-           
-           function updateBankAccount($user, $data)
-           {
-           	$b = BankAccounts::where('user_id',$user->id)->first();
- 
-              if($b != null)
-               {
-               	   $b->update(['acnum' => $data['acnum'],
-                           'acname' => $data['acname'],
-                                          'balance' => $data['balance'],
-                                          'status' => $data['status']
-                      ]);               
-               }
-           }	
+           }
 
 		   function updateConfig($data)
            {
@@ -381,7 +327,220 @@ $subject = $data['subject'];
                }                                 
                                                       
                 return $ret;
-           }		  
+           }	
+           
+           function createClass($data)
+           {
+           	$ret = Classes::create(['name' => $data['name'],             
+                                                      'img' => $data['img'],                                                     
+                                                      'description' => $data['description']
+                                                      ]);
+                                                      
+                return $ret;
+           }
+
+           function getClasses()
+           {
+           	   $ret = [];
+               $classes = Classes::where('id','>','0')->get();
+ 
+              if($classes != null)
+               {
+                   foreach($classes as $c)
+                   {
+                       $temp = $this->getSingleClass($c->id); 
+                       array_push($ret,$temp); 
+                   }
+                   	
+               }                                     
+                return $ret;
+           }
+
+           function getSingleClass($id)
+           {
+            $ret = [];
+            $c = Classes::where('id',$id)->first();
+
+           if($c != null)
+            {
+                    $temp['id'] = $c->id; 
+                    $temp['name'] = $c->name; 
+                    $temp['img'] = $c->img; 
+                    $temp['description'] = $c->description; 
+                    $temp['subjects'] = $this->getSubjects($c->id);
+                    $temp['date'] = $c->created_at->format("jS F, Y"); 
+                    $ret = $temp; 
+            }                          
+                                                   
+             return $ret;
+           }
+
+           function updateSingleClass($data)
+           {
+           	$c = Classes::where('id',$data['id'])->first();
+            
+              if($c != null)
+               {
+                   $temp = [];
+                   if(isset($data['name'])) $temp['name'] = $data['name'];
+                   if(isset($data['img'])) $temp['img'] = $data['img'];
+                   if(isset($data['description'])) $temp['description'] = $data['description']; 
+               	   $c->update($temp);               
+               }
+           }	
+
+           function removeSingleClass($data)
+           {
+           	$c = Classes::where('id',$data['id'])->first();
+            
+              if($c != null)
+               {
+                   $c->delete();               
+               }
+           }
+           
+           function createSubject($data)
+           {
+           	$ret = Subjects::create(['name' => $data['name'],             
+                                                      'class_id' => $data['class_id'],                                                     
+                                                      'description' => $data['description']
+                                                      ]);
+                                                      
+                return $ret;
+           }
+
+           function getSubjects($id="all")
+           {
+           	   $ret = []; 
+              if($id == "all") $subjects = Subjects::where('id','>','0')->get();
+              else $subjects = Subjects::where('class_id',$id)->get();
+ 
+              if($subjects != null)
+               {
+                   foreach($subjects as $s)
+                   {
+                       $temp = $this->getSubject($s->id); 
+                       array_push($ret,$temp); 
+                   }
+                   	
+               }                                     
+                return $ret;
+           }
+
+           function getSubject($id)
+           {
+            $ret = [];
+            $s = Subjects::where('id',$id)->first();
+
+           if($s != null)
+            {
+                    $temp['id'] = $s->id; 
+                    $temp['class_id'] = $s->class_id; 
+                    $temp['name'] = $s->name; 
+                    $temp['description'] = $s->description;
+                    $temp['topics'] = $this->getTopics($s->id); 
+                    $temp['date'] = $s->created_at->format("jS F, Y"); 
+                    $ret = $temp; 
+            }                          
+                                                   
+             return $ret;
+           }
+
+           function updateSubject($data)
+           {
+           	$s = Subjects::where('id',$data['id'])->first();
+            
+              if($s != null)
+               {
+                   $temp = [];
+                   if(isset($data['name'])) $temp['name'] = $data['name'];
+                   if(isset($data['img'])) $temp['img'] = $data['img'];
+                   if(isset($data['description'])) $temp['description'] = $data['description']; 
+               	   $s->update($temp);               
+               }
+           }	
+
+           function removeSubject($data)
+           {
+           	$s = Subjects::where('id',$data['id'])->first();
+            
+              if($s != null)
+               {
+                   $s->delete();               
+               }
+           }
+
+           function createTopic($data)
+           {
+           	$ret = Topics::create(['name' => $data['name'],             
+                                                      'subject_id' => $data['subject_id'],                                                     
+                                                      'type' => $data['type'],
+                                                      'content' => $data['content'],
+                                                      ]);
+                                                      
+                return $ret;
+           }
+
+           function getTopics($id)
+           {
+           	   $ret = []; 
+              $topics = Topics::where('subject_id',$id)->get();
+ 
+              if($topics != null)
+               {
+                   foreach($topics as $t)
+                   {
+                       $temp = $this->getTopic($t->id); 
+                       array_push($ret,$temp); 
+                   }
+                   	
+               }                                     
+                return $ret;
+           }
+
+           function getTopic($id)
+           {
+            $ret = [];
+            $t = Topics::where('id',$id)->first();
+
+           if($t != null)
+            {
+                    $temp['id'] = $t->id; 
+                    $temp['subject_id'] = $t->subject_id; 
+                    $temp['name'] = $t->name; 
+                    $temp['type'] = $t->type; 
+                    $temp['content'] = $t->content; 
+                    $temp['date'] = $t->created_at->format("jS F, Y"); 
+                    $ret = $temp; 
+            }                          
+                                                   
+             return $ret;
+           }
+
+           function updateTopic($data)
+           {
+           	$t = Topics::where('id',$data['id'])->first();
+            
+              if($t != null)
+               {
+                   $temp = [];
+                   if(isset($data['name'])) $temp['name'] = $data['name'];
+                   if(isset($data['type'])) $temp['type'] = $data['type'];
+                   if(isset($data['content'])) $temp['content'] = $data['content']; 
+               	   $t->update($temp);               
+               }
+           }	
+
+           function removeTopic($data)
+           {
+           	$t = Topics::where('id',$data['id'])->first();
+            
+              if($t != null)
+               {
+                   $t->delete();               
+               }
+           }
+           
 
            function addSmtpConfig($data)
            {
