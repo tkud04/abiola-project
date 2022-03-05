@@ -118,7 +118,7 @@ if(count($courses) > 0)
 {
     foreach($courses as $course)
     {
-        $cu = url('class')."?xf=".$$course['id'];
+        $cu = url('class')."?xf=".$course['id'];
 ?>
 <div class="single-home-special-course">
 <div class="course-img">
