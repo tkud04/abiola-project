@@ -146,9 +146,7 @@ $subject = $data['subject'];
                {
                    	$temp['fname'] = $u->fname; 
                        $temp['lname'] = $u->lname; 
-                       $temp['bank'] = $this->getBankAccount($u);
-                       $temp['data'] = $this->getUserData($u);
-                       $temp['phone'] = $u->phone; 
+                       $temp['class'] = $u->class;
                        $temp['email'] = $u->email; 
                        $temp['role'] = $u->role; 
                        $temp['status'] = $u->status; 
@@ -160,10 +158,11 @@ $subject = $data['subject'];
                 return $ret;
            }
 		   
-		   function getUsers()
+		   function getUsers($id="all")
            {
            	$ret = [];
-               $uu = User::where('id','>','0')->get();
+               if($id == "all") $uu = User::where('id','>','0')->get();
+               else $uu = User::where('role',$id)->get();
  
               if($uu != null)
                {
@@ -176,6 +175,7 @@ $subject = $data['subject'];
                                                       
                 return $ret;
            }	  
+
            function updateUser($data)
            {  
               $ret = 'error'; 
@@ -339,7 +339,7 @@ $subject = $data['subject'];
                 return $ret;
            }
 
-           function getClasses()
+           function getClasses($params=[])
            {
            	   $ret = [];
                $classes = Classes::where('id','>','0')->get();
@@ -348,7 +348,7 @@ $subject = $data['subject'];
                {
                    foreach($classes as $c)
                    {
-                       $temp = $this->getSingleClass($c->id); 
+                       $temp = $this->getSingleClass($c->id,$params); 
                        array_push($ret,$temp); 
                    }
                    	
@@ -356,7 +356,7 @@ $subject = $data['subject'];
                 return $ret;
            }
 
-           function getSingleClass($id)
+           function getSingleClass($id,$params=[])
            {
             $ret = [];
             $c = Classes::where('id',$id)->first();
@@ -368,12 +368,30 @@ $subject = $data['subject'];
                     $temp['img'] = $c->img; 
                     $temp['description'] = $c->description; 
                     $temp['subjects'] = $this->getSubjects($c->id);
+                    if(isset($params['withStudents']) && $params['withStudents']) $temp['students'] = $this->getClassStudents($c->id);
                     $temp['date'] = $c->created_at->format("jS F, Y"); 
                     $ret = $temp; 
             }                          
                                                    
              return $ret;
            }
+
+           function getClassStudents($id)
+           {
+           	$ret = [];
+               $students = User::where('class',$id)->get();
+ 
+              if($students != null)
+               {
+				  foreach($students as $u)
+				    {
+                       $temp = $this->getUser($u->id);
+                       array_push($ret,$temp); 
+				    }
+               }                          
+                                                      
+                return $ret;
+           }	  
 
            function updateSingleClass($data)
            {
@@ -540,6 +558,29 @@ $subject = $data['subject'];
                    $t->delete();               
                }
            }
+
+           function addStudent($data)
+           {
+           	$c = Classes::where('id',$data['class_id'])->first();
+            $s = User::where('id',$data['student_id'])->first();
+            
+              if($s != null && $c != null)
+               {
+                   $s->update(['class' => $c->id]);              
+               }
+           }	
+
+           function removeStudent($data)
+           {
+           	$c = Classes::where('id',$data['class_id'])->first();
+            $s = User::where('id',$data['student_id'])->first();
+            
+              if($s != null && $c != null)
+               {
+                   $s->update(['class' => "none"]);              
+               }
+           }	
+
            
 
            function addSmtpConfig($data)

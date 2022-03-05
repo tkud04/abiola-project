@@ -27,3 +27,11 @@ $(document).ready(() => {
         }
     });
 });
+
+function removeStudent(c,s){
+   let sure =  confirm("Are you sure? Press OK to cintinue");
+   if(sure){
+     window.location = `remove-student?class_id=${c}&student_id=${s}`;
+   }
+   else{}
+}

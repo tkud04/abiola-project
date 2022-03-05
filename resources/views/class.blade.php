@@ -22,7 +22,7 @@ if(count($c['subjects']) > 0)
     {
         $su = url('subject')."?xf=".$s['id'];
 ?>
-<div class="col-lg-4 col-md-6">
+<div class="col-lg-4 col-md-6" onclick="window.location='{{$su}}';">
 <div class="single-ragular-course">
 <div class="course-img">
 <img src="assets/images/courses/img3.png" alt="ragular">
@@ -48,6 +48,37 @@ else
 <?php
 }
 ?>
+
+<div class="col-lg-12 col-md-12">
+@if($user->role == "teacher")
+<div class="home-course-slider owl-carousel owl-theme">
+
+<?php
+if(count($c['students']) > 0)
+{
+    foreach($c['students'] as $s)
+    {
+       // $cu = url('class')."?xf=".$c['id'];
+?>
+<div class="single-home-special-course">
+<div class="course-img">
+<img src="assets/images/img6.png" alt="Student">
+<div class="course-content">
+<h2>{{$s['fname']." ".$s['lname']}}</h2>
+<p>
+Class member
+</p>
+<a href="javascript:void(0)" class="btn btn-danger" onclick="removeStudent({{$c['id']}},{{$s['id']}});">Remove student</a>
+</div>
+</div>
+</div>
+<?php
+    }
+}
+?>
+</div>
+@endif
+</div>
 
 </div>
 </div>

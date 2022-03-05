@@ -213,13 +213,13 @@ Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt u
 <h2>Find Us</h2>
 <ul>
 <li>
-<a href="#"><i class="flaticon-next"></i> +1 (321) 984 754</a>
+<a href="#"><i class="flaticon-next"></i> 01379 642088</a>
 </li>
 <a href="#"><i class="flaticon-next"></i> <span class="__cf_email__" data-cfemail="32414742425d4046725756445b1c515d5f">[email&#160;protected]</span></a>
 </li>
 <li>
 <a href="#">
-<i class="flaticon-next"></i> 28/A Street, New York, USA
+<i class="flaticon-next"></i> 25 Mere Street, Norfolk, UK IP22 4AD
 </a>
 </li>
 </ul>

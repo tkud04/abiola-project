@@ -25,7 +25,7 @@ if(count($classes) > 0)
     {
         $cu = url('class')."?xf=".$c['id'];
 ?>
-<div class="single-home-special-course">
+<div class="single-home-special-course" onclick="window.location='{{$cu}}';">
 <div class="course-img">
 <img src="{{$c['img']}}" alt="course">
 <div class="course-content">

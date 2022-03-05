@@ -33,12 +33,21 @@ Route::post('profile', [MainController::class,'postProfile']);
 //Classes and Subjects
 Route::get('classes', [MainController::class,'getClasses']);
 Route::get('class', [MainController::class,'getSingleClass']);
+Route::get('subjects', [MainController::class,'getSubjects']);
+Route::get('subject', [MainController::class,'getSubject']);
+Route::get('topics', [MainController::class,'getTopics']);
+Route::get('topic', [MainController::class,'getTopic']);
+
+//Teachers
 Route::get('new-class', [MainController::class,'getNewClass']);
 Route::post('new-class', [MainController::class,'postNewClass']);
-Route::get('subjects', [MainController::class,'getSubjects']);
 Route::get('new-subject', [MainController::class,'getNewSubject']);
 Route::post('new-subject', [MainController::class,'postNewSubject']);
-Route::get('subject', [MainController::class,'getSubject']);
 Route::get('new-topic', [MainController::class,'getNewTopic']);
 Route::post('new-topic', [MainController::class,'postNewTopic']);
-Route::get('topic', [MainController::class,'getTopic']);
+Route::get('add-student', [MainController::class,'getAddStudent']);
+Route::post('add-student', [MainController::class,'postAddStudent']);
+Route::get('remove-student', [MainController::class,'getRemoveStudent']);
+
+//Students
+Route::get('my-subjects', [MainController::class,'getMySubjects']);

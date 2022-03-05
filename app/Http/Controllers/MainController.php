@@ -65,14 +65,14 @@ class MainController extends Controller {
          
          if($user->role == "teacher")
          {
-             $subjects = [];
-             $compact = ['user','subjects'];
+             $classes = $this->helpers->getClasses();
+             $compact = ['user','classes'];
              $v = "teacher-dashboard";
          }
          
          else
          {
-            $subjects = [];
+            $subjects = $this->helpers->getSubjects($user->class);
             $compact = ['user','subjects'];
             $v = "student-dashboard";
          } 	  
@@ -157,7 +157,6 @@ class MainController extends Controller {
 			$user = Auth::user();
 		}
 
-		
 		$signals = $this->helpers->signals;
         $classes = $this->helpers->getClasses();
         #dd($classes);
@@ -180,7 +179,8 @@ class MainController extends Controller {
 
         if(isset($req['xf'])){
             $signals = $this->helpers->signals;
-        $c = $this->helpers->getSingleClass($req['xf']);
+            $withStudents = $user->role == "teacher" ? true : false; 
+        $c = $this->helpers->getSingleClass($req['xf'],['withStudents' => $withStudents]);
         #dd($c);
     	return view('class',compact(['user','c','signals']));
         }
@@ -190,6 +190,106 @@ class MainController extends Controller {
 
 		
 		
+    }
+
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getAddStudent()
+    {
+       $user = null; $isAuthorized = false;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
+		}
+        if(!$isAuthorized)
+        {
+            return redirect()->intended('/');
+        }
+
+		$classes = $this->helpers->getClasses();
+        $students = $this->helpers->getUsers("student");
+		$signals = $this->helpers->signals;
+        #dd($user);
+    	return view('add-student',compact(['user','classes','students','signals']));
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postAddStudent(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
+		}
+        if(!$isAuthorized)
+        {
+            return redirect()->intended('/');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [
+                             'student_id' => 'required',
+                             'class_id' => 'required',
+         ]);
+         
+         if($validator->fails())
+         {
+            $messages = $validator->messages();
+            return redirect()->back()->withInput()->with('errors',$messages);
+         }
+         
+         else
+         {
+            $ret = $this->helpers->addStudent($req);
+			return redirect()->intended('classes');
+         }  
+    }
+
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function getRemoveStudent(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
+		}
+        if(!$isAuthorized)
+        {
+            return redirect()->intended('/');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [
+                             'student_id' => 'required',
+                             'class_id' => 'required',
+         ]);
+         
+         if($validator->fails())
+         {
+            $messages = $validator->messages();
+            return redirect()->back()->withInput()->with('errors',$messages);
+         }
+         
+         else
+         {
+            $ret = $this->helpers->removeStudent($req);
+			return redirect()->intended('classes');
+         }  
     }
 
     /**
@@ -432,6 +532,62 @@ class MainController extends Controller {
         $t = $this->helpers->getTopic($req['xf']);
         #dd($t);
     	return view('topic',compact(['user','t','signals']));
+        }
+        else{
+            return redirect()->intended('classes');
+        }
+
+		
+		
+    }
+
+     /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getTopics(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+		if(Auth::check())
+		{
+			$user = Auth::user();
+		}
+
+        if(isset($req['xf'])){
+            $signals = $this->helpers->signals;
+        $topics = $this->helpers->getTopics($req['xf']);
+        #dd($t);
+    	return view('topics',compact(['user','topics','signals']));
+        }
+        else{
+            return redirect()->intended('classes');
+        }
+
+		
+		
+    }
+
+     /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getSubjects(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+		if(Auth::check())
+		{
+			$user = Auth::user();
+		}
+
+        if(isset($req['xf'])){
+            $signals = $this->helpers->signals;
+        $subjects = $this->helpers->getSubjects($req['xf']);
+        #dd($t);
+    	return view('subjects',compact(['user','subjects','signals']));
         }
         else{
             return redirect()->intended('classes');

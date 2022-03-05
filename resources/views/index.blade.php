@@ -120,7 +120,7 @@ if(count($courses) > 0)
     {
         $cu = url('class')."?xf=".$course['id'];
 ?>
-<div class="single-home-special-course">
+<div class="single-home-special-course" onclick="window.location='{{$cu}}';">
 <div class="course-img">
 <img src="{{$course['img']}}" alt="course">
 <div class="course-content">

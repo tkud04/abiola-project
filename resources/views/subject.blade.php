@@ -22,7 +22,7 @@ if(count($s['topics']) > 0)
     {
         $su = url('topic')."?xf=".$t['id'];
 ?>
-<div class="col-lg-4 col-md-6">
+<div class="col-lg-4 col-md-6" onclick="window.location='{{$su}}';">
 <div class="single-ragular-course">
 <div class="course-img">
 <img src="assets/images/courses/img3.png" alt="ragular">
