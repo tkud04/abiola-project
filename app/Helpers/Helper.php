@@ -543,6 +543,7 @@ $subject = $data['subject'];
                {
                    $temp = [];
                    if(isset($data['name'])) $temp['name'] = $data['name'];
+                   if(isset($data['subject_id'])) $temp['subject_id'] = $data['subject_id'];
                    if(isset($data['type'])) $temp['type'] = $data['type'];
                    if(isset($data['content'])) $temp['content'] = $data['content']; 
                	   $t->update($temp);               

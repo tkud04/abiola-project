@@ -360,6 +360,107 @@ class MainController extends Controller {
 	 *
 	 * @return Response
 	 */
+	public function getEditClass(Request $request)
+    {
+       $user = null; $isAuthorized = false;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
+		}
+        if(!$isAuthorized)
+        {
+            return redirect()->intended('/');
+        }
+
+		$req = $request->all();
+
+        if(isset($req['xf'])){
+           $c = $this->helpers->getSingleClass($req['xf']);
+        }
+        else{
+            return redirect()->intended('classes');
+        }
+		$signals = $this->helpers->signals;
+        #dd($user);
+    	return view('edit-class',compact(['user','c','signals']));
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postEditClass(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
+		}
+        if(!$isAuthorized)
+        {
+            return redirect()->intended('/');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [
+                             'name' => 'required',
+                             'img' => 'required',
+                             'description' => 'required',
+         ]);
+         
+         if($validator->fails())
+         {
+            $messages = $validator->messages();
+            return redirect()->back()->withInput()->with('errors',$messages);
+         }
+         
+         else
+         {
+             $req['id'] = $req['xf'];
+            $ret = $this->helpers->updateSingleClass($req);
+			return redirect()->intended('classes');
+         }  
+    }
+
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getRemoveClass(Request $request)
+    {
+       $user = null; $isAuthorized = false;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
+		}
+        if(!$isAuthorized)
+        {
+            return redirect()->intended('/');
+        }
+
+		$req = $request->all();
+
+        if(isset($req['xf'])){
+            $req['id'] = $req['xf'];
+           $c = $this->helpers->removeSingleClass($req);
+        }
+        
+        return redirect()->intended('classes');
+        
+    }
+
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
 	public function getSubject(Request $request)
     {
        $user = null;
@@ -446,7 +547,108 @@ class MainController extends Controller {
 			return redirect()->intended('classes');
          }  
     }
+    
+     /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getEditSubject(Request $request)
+    {
+       $user = null; $isAuthorized = false;
 
+		if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
+		}
+        if(!$isAuthorized)
+        {
+            return redirect()->intended('/');
+        }
+        
+        $req = $request->all();
+        if(isset($req['xf'])){
+           $s = $this->helpers->getSubject(($req['xf']));
+           $signals = $this->helpers->signals;
+           $classes = $this->helpers->getClasses();
+           #dd($user);
+    	   return view('edit-subject',compact(['user','s','classes','signals']));
+        }
+        else{
+            return redirect()->intended('classes');
+        }
+		
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postEditSubject(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
+		}
+        if(!$isAuthorized)
+        {
+            return redirect()->intended('/');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [
+                             'name' => 'required',
+                             'class_id' => 'required',
+                             'description' => 'required',
+         ]);
+         
+         if($validator->fails())
+         {
+            $messages = $validator->messages();
+            return redirect()->back()->withInput()->with('errors',$messages);
+         }
+         
+         else
+         {
+             $req['id'] = $req['xf'];
+            $ret = $this->helpers->updateSubject($req);
+			return redirect()->intended('classes');
+         }  
+    }
+
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getRemoveSubject(Request $request)
+    {
+       $user = null; $isAuthorized = false;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
+		}
+        if(!$isAuthorized)
+        {
+            return redirect()->intended('/');
+        }
+
+		$req = $request->all();
+
+        if(isset($req['xf'])){
+            $req['id'] = $req['xf'];
+           $c = $this->helpers->removeSubject($req);
+        }
+        
+        return redirect()->intended('classes');
+        
+    }
 
     /**
 	 * Show the application welcome screen to the user.
@@ -511,6 +713,109 @@ class MainController extends Controller {
             $ret = $this->helpers->createTopic($req);
 			return redirect()->intended('subject?xf='.$req['subject_id']);
          }  
+    }
+
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getEditTopic(Request $request)
+    {
+       $user = null; $isAuthorized = false;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
+		}
+        if(!$isAuthorized)
+        {
+            return redirect()->intended('/');
+        }
+        
+        $req = $request->all();
+        if(isset($req['xf'])){
+           $t = $this->helpers->getTopic(($req['xf']));
+           $subjects = $this->helpers->getSubjects();
+           $signals = $this->helpers->signals;
+           #dd($user);
+    	   return view('edit-topic',compact(['user','t','subjects','signals']));
+        }
+        else{
+            return redirect()->intended('classes');
+        }
+		
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postEditTopic(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
+		}
+        if(!$isAuthorized)
+        {
+            return redirect()->intended('/');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [
+            'subject_id' => 'required',
+            'name' => 'required',
+            'type' => 'required|not_in:none',
+            'content' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+            $messages = $validator->messages();
+            return redirect()->back()->withInput()->with('errors',$messages);
+         }
+         
+         else
+         {
+             $req['id'] = $req['xf'];
+            $ret = $this->helpers->updateTopic($req);
+			return redirect()->intended('classes');
+         }  
+    }
+
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getRemoveTopic(Request $request)
+    {
+       $user = null; $isAuthorized = false;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+            if($user->role == "teacher") $isAuthorized = true;
+		}
+        if(!$isAuthorized)
+        {
+            return redirect()->intended('/');
+        }
+
+		$req = $request->all();
+
+        if(isset($req['xf'])){
+            $req['id'] = $req['xf'];
+           $c = $this->helpers->removeTopic($req);
+        }
+        
+        return redirect()->intended('classes');
+        
     }
 
      /**

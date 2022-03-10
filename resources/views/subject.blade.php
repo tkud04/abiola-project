@@ -4,13 +4,23 @@
 
 @section('content')
 <?php
-$pu = url('profile');
+$eu = url('edit-subject')."?xf=".$s['id'];
+$ru = url('remove-subject')."?xf=".$s['id'];
 ?>
 
 @include('banner-2',['class' => "terms", 'title' => $s['name']])
 <section class="class-area">
 <div class="container">
 <div class="row">
+@if($user->role == "teacher")
+<div class="col-lg-12 mb-5">
+        <h2 class="text-info">Quick Links</h2>
+        <div class="row">
+            <div class="col-md-12"><p>Edit information about this subject <a href="{{$eu}}" class="btn btn-info">Edit subject</a></p></div>
+            <div class="col-md-12"><p>Remove this subject from class <span class="text-danger">WARNING! This cannot be undone</span> <a href="{{$ru}}" class="btn btn-danger">Remove subject</a></p></div>
+        </div>      
+</div>
+@endif
 <div class="col-lg-12 col-md-12">
  <h2 class="text-primary">Topics <a href="{{url('new-topic')}}" class="btn btn-primary">Add new topic</a></h2>
  <hr>

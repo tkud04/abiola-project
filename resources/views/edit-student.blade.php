@@ -1,30 +1,21 @@
 @extends('layout')
 
-@section('title',"Add New Subject")
+@section('title',"Add Student")
 
 @section('content')
 <?php
 $pu = url('profile');
 ?>
  
-@include('banner-2',['class' => "signup", 'title' => "Add New Subject"])
+@include('banner-2',['class' => "signup", 'title' => "Add Student"])
 <section class="signup-area">
 <div class="container">
 <div class="row align-items-center">
 <div class="col-lg-12">
 <div class="signup-form">
-<form id="signup-form" method="post" action="{{url('new-subject')}}">
+<form id="signup-form" method="post" action="{{url('add-student')}}">
     {!! csrf_field() !!}
 <div class="row">
-<div class="col-lg-12">
-<div class="row">
-<div class="col-lg-12"> 
-<div class="form-group">
-<input type="text" class="form-control"  name="name" placeholder="Subject name">
-</div>
-</div>
-</div>
-</div>
 <div class="col-lg-12">
 <div class="form-group">
 <select class="form-control" name="class_id">
@@ -42,9 +33,20 @@ $pu = url('profile');
 </div>
 <div class="col-lg-12">
 <div class="form-group">
-<textarea class="form-control" name="description" rows="15" placeholder="Description"></textarea>
+<select class="form-control" name="student_id">
+    <option value="none">Select student</option>
+    <?php
+     foreach($students as $s)
+     {
+    ?>
+    <option value="{{$s['id']}}">{{$s['fname']." ".$s['lname']}}</option>
+    <?php
+     }
+    ?>
+</select>
 </div>
 </div>
+
 <div class="col-lg-12">
 <button type="submit" class="box-btn">
 Submit
